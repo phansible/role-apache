@@ -26,7 +26,7 @@
   become: yes
   template: src=vhost24.conf.tpl dest=/etc/apache2/sites-available/{{ item.config_name }}
   notify: restart apache
-  when: apache_version.stdout.find('Apache/2.4.') != -1
+  when: apache_version.stdout.find('Apache/2.4.') != -1 and item.config_name is defined
   with_items:
     - "{{ apache.hosts }}"
 
@@ -34,6 +34,6 @@
   become: yes
   template: src=vhost22.conf.tpl dest=/etc/apache2/sites-available/{{ item.config_name }}
   notify: restart apache
-  when: apache_version.stdout.find('Apache/2.2.') != -1
+  when: apache_version.stdout.find('Apache/2.2.') != -1 and item.config_name is defined
   with_items:
     - "{{ apache.hosts }}"
