@@ -1,4 +1,6 @@
 ---
 apache:
-    docroot: "/vagrant"
-    servername: "myApp.vb"
+    hosts:
+      - docroot: '/vagrant'
+        servername: 'myApp.vb'
+        config_name: '000-default.conf'
