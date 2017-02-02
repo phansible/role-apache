@@ -7,15 +7,25 @@
   become: yes
   apt: pkg=apache2 state=latest
 
-- name: Install Apache Modules
-  apache2_module: state=present name={{ item }}
+- name: Install Apache Modules rewrite
+  apache2_module: name=rewrite state=present
   notify: restart apache
-  with_items:
-    - rewrite
-    - vhost_alias
-    - headers
-    - expires
-    - filter
+  
+- name: Install Apache Modules vhost_alias
+  apache2_module: name=vhost_alias state=present
+  notify: restart apache
+  
+- name: Install Apache Modules headers
+  apache2_module: name=headers state=present
+  notify: restart apache  
+  
+- name: Install Apache Modules expires
+  apache2_module: name=expires state=present
+  notify: restart apache  
+  
+- name: Install Apache Modules filter
+  apache2_module: name=filter state=present
+  notify: restart apache  
 
 - name: Get installed version of Apache.
   shell: apache2 -v
@@ -33,3 +43,17 @@
   template: src=vhost22.conf.tpl dest=/etc/apache2/sites-available/default
   notify: restart apache
   when: apache_version.stdout.find('Apache/2.2.') != -1
+
+- name: Disable Apache ServerSignature
+  lineinfile:
+    dest: "/etc/apache2/apache2.conf"
+    regexp: '^ServerSignature'
+    line: "ServerSignature Off"
+  notify: restart apache
+
+- name: Disable Apache ServerTokens
+  lineinfile:
+    dest: "/etc/apache2/apache2.conf"
+    regexp: '^ServerTokens'
+    line: "ServerTokens Prod"
+  notify: restart apache
