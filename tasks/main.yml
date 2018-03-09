@@ -1,7 +1,7 @@
 ---
 - name: Ensure packages database is up to date
   become: yes
-  apt: update_cache=yes
+  apt: update_cache=yes cache_valid_time=3600
 
 - name: Install Apache
   become: yes
@@ -10,22 +10,22 @@
 - name: Install Apache Modules rewrite
   apache2_module: name=rewrite state=present
   notify: restart apache
-  
+
 - name: Install Apache Modules vhost_alias
   apache2_module: name=vhost_alias state=present
   notify: restart apache
-  
+
 - name: Install Apache Modules headers
   apache2_module: name=headers state=present
-  notify: restart apache  
-  
+  notify: restart apache
+
 - name: Install Apache Modules expires
   apache2_module: name=expires state=present
-  notify: restart apache  
-  
+  notify: restart apache
+
 - name: Install Apache Modules filter
   apache2_module: name=filter state=present
-  notify: restart apache  
+  notify: restart apache
 
 - name: Get installed version of Apache.
   shell: apache2 -v
