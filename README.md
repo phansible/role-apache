@@ -10,7 +10,13 @@ An Ansible Role that installs [Apache](http://httpd.apache.org/) on Ubuntu speci
 
 ## Role Variables
 
-// TODO
+The default role variables are located in `defaults/main.yml` and contain the information necessary to create Apache VirtualHosts. The `hosts` variable contains a list that allows a user to configure one or more VirtualHost(s).
+
+`apache.hosts.docroot`: The Apache DocumentRoot of the VirtualHost you would like to create
+
+`apache.hosts.servername`: The Apache ServerName of the VirtualHOst you would like to create
+
+`apache.hosts.config_name`: The filename for the VirtualHost configuration file that will end up in `/etc/apache2/sites-enabled`. The default file name is `000-default.conf`, if you choose to configure multiple hosts, you must provide a different name to avoid continually overwriting the default VHost config.
 
 ## Dependencies
 
