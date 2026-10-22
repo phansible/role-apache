@@ -1,6 +1,6 @@
 # Phansible Role: Apache
 
-[![Build Status](https://travis-ci.org/phansible/role-apache.svg?branch=master)](https://travis-ci.org/phansible/role-apache)
+[![CI](https://github.com/phansible/role-apache/actions/workflows/ci.yml/badge.svg)](https://github.com/phansible/role-apache/actions/workflows/ci.yml)
 
 An Ansible Role that installs [Apache](http://httpd.apache.org/) on Ubuntu specifically created with [Phansible](http://phansible.com/) in mind.
 
