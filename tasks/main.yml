@@ -8,43 +8,37 @@
   apt: pkg=apache2 state=latest
 
 - name: Install Apache Modules rewrite
+  become: yes
   apache2_module: name=rewrite state=present
   notify: restart apache
 
 - name: Install Apache Modules vhost_alias
+  become: yes
   apache2_module: name=vhost_alias state=present
   notify: restart apache
 
 - name: Install Apache Modules headers
+  become: yes
   apache2_module: name=headers state=present
   notify: restart apache
 
 - name: Install Apache Modules expires
+  become: yes
   apache2_module: name=expires state=present
   notify: restart apache
 
 - name: Install Apache Modules filter
+  become: yes
   apache2_module: name=filter state=present
   notify: restart apache
 
-- name: Get installed version of Apache.
-  shell: apache2 -v
-  changed_when: false
-  register: apache_version
-
-- name: Change default apache2.4 site
+- name: Change default apache site
   become: yes
   template: src=vhost24.conf.tpl dest=/etc/apache2/sites-available/000-default.conf
   notify: restart apache
-  when: apache_version.stdout.find('Apache/2.4.') != -1
-
-- name: Change default apache2.2 site
-  become: yes
-  template: src=vhost22.conf.tpl dest=/etc/apache2/sites-available/default
-  notify: restart apache
-  when: apache_version.stdout.find('Apache/2.2.') != -1
 
 - name: Disable Apache ServerSignature
+  become: yes
   lineinfile:
     dest: "/etc/apache2/apache2.conf"
     regexp: '^ServerSignature'
@@ -52,8 +46,13 @@
   notify: restart apache
 
 - name: Disable Apache ServerTokens
+  become: yes
   lineinfile:
     dest: "/etc/apache2/apache2.conf"
     regexp: '^ServerTokens'
     line: "ServerTokens Prod"
   notify: restart apache
+
+- name: Ensure apache is running and enabled
+  become: yes
+  service: name=apache2 state=started enabled=yes
